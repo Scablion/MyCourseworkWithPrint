@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище SadNetModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DetSad">
+    <Key>
+      <PropertyRef Name="SadID" />
+    </Key>
+    <Property Name="SadID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Adress" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="People" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Directors">
+    <Key>
+      <PropertyRef Name="DirectorID" />
+    </Key>
+    <Property Name="DirectorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DirName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DirAge" Type="int" Nullable="false" />
+    <Property Name="DirStage" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DirEducation" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SadNet">
+    <Key>
+      <PropertyRef Name="SadID" />
+    </Key>
+    <Property Name="SadID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SadDirectorID" Type="int" Nullable="false" />
+    <Property Name="PlataForMonth" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="DateOpen" Type="date" Nullable="false" />
+    <Property Name="IdSad" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_SadNet_DetSad1">
+    <End Role="DetSad" Type="Self.DetSad" Multiplicity="1" />
+    <End Role="SadNet" Type="Self.SadNet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DetSad">
+        <PropertyRef Name="SadID" />
+      </Principal>
+      <Dependent Role="SadNet">
+        <PropertyRef Name="IdSad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SadNet_Directors">
+    <End Role="Directors" Type="Self.Directors" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SadNet" Type="Self.SadNet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Directors">
+        <PropertyRef Name="DirectorID" />
+      </Principal>
+      <Dependent Role="SadNet">
+        <PropertyRef Name="SadDirectorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище SadNetModelContainer">
+    <EntitySet Name="DetSad" EntityType="Self.DetSad" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Directors" EntityType="Self.Directors" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SadNet" EntityType="Self.SadNet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_SadNet_DetSad1" Association="Self.FK_SadNet_DetSad1">
+      <End Role="DetSad" EntitySet="DetSad" />
+      <End Role="SadNet" EntitySet="SadNet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SadNet_Directors" Association="Self.FK_SadNet_Directors">
+      <End Role="Directors" EntitySet="Directors" />
+      <End Role="SadNet" EntitySet="SadNet" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
